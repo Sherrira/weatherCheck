@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", web.GetTemperaturesHandler)
+	http.HandleFunc("/cep/", web.GetTemperaturesHandler)
 	http.ListenAndServe(":8080", nil)
 }

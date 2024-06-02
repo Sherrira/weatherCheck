@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"strconv"
 	"weatherCheck/internal/infra/datasource"
 	"weatherCheck/internal/usecase/business_errors"
@@ -30,18 +31,21 @@ func ConvertCelsiusToKelvin(celsius float64) float64 {
 
 func Execute(cep string) (TemperaturesDTO, error) {
 	if !IsValidCEP(cep) {
+		fmt.Printf("Invalid CEP: %s\n", cep)
 		return TemperaturesDTO{}, business_errors.ErrCepValidationFailed
 	}
 
 	cityRepository := datasource.NewCityRepository()
 	city, err := cityRepository.FetchCityByCEP(cep)
 	if err != nil {
+		fmt.Printf("Error fetching city by CEP: %v\n", err)
 		return TemperaturesDTO{}, business_errors.ErrCepNotFound
 	}
 
 	temperatureRepository := datasource.NewTemperatureRepository()
 	celsius, err := temperatureRepository.FetchTemperatureByCity(city)
 	if err != nil {
+		fmt.Printf("Error fetching temperature by city: %v\n", err)
 		return TemperaturesDTO{}, business_errors.ErrFetchTemperatureFailed
 	}
 	fahrenheit := ConvertCelsiusToFahrenheit(celsius)

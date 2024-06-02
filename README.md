@@ -17,7 +17,7 @@ Para executar as consultas de temperatura é necessária a obtençao de uma chav
 2. Após a criação da conta, acesse o painel de controle e copie a chave de acesso.
 3. No arquivo ".env" na pasta cmd, adicione a chave de acesso obtida no passo anterior.
 
-Nota: o projeto está entregando um arquivo Dockerfile que permite o deploy na Google Cloud Plataform no serviço Google Cloud Run.
+Nota: o projeto está entregando um arquivo Dockerfile que permite o deploy na Google Cloud Platform no serviço Google Cloud Run.
 
 ## Interagindo com a API
 A aplicação possui um tipo de API:

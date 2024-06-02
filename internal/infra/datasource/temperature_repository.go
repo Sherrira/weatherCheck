@@ -42,17 +42,19 @@ func (t *TemperatureRepository) FetchTemperatureByCity(city map[string]interface
 	local := city["localidade"]
 	resp, err := t.HTTPClient.Get(fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s=%s", t.conf.WeatherAPIKey, url.QueryEscape(local.(string))))
 	if err != nil {
-
+		fmt.Printf("Error fetching weather API: %v\n", err)
 		return 0, err
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
+		fmt.Printf("Error reading weather API response: %v\n", err)
 		return 0, err
 	}
 	var weatherAPIResponse TemperatureAPIResponse
 	err = json.Unmarshal(body, &weatherAPIResponse)
 	if err != nil {
+		fmt.Printf("Error unmarshalling weather API response: %v\n", err)
 		return 0, err
 	}
 	return weatherAPIResponse.Current.TempC, nil

@@ -10,8 +10,8 @@ import (
 )
 
 func GetTemperaturesHandler(w http.ResponseWriter, r *http.Request) {
-	cep := strings.TrimPrefix(r.URL.Path, "/")
-
+	pathParts := strings.Split(r.URL.Path, "/")
+	cep := pathParts[len(pathParts)-1]
 	dto, err := usecase.Execute(cep)
 	if err != nil {
 		if errors.Is(err, business_errors.ErrCepValidationFailed) {

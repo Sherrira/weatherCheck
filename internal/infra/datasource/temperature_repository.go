@@ -6,18 +6,30 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"weatherCheck/configs"
 )
 
 type TemperatureRepository struct {
 	HTTPClient HTTPClient
+	conf       configs.Config
 }
 
 func NewTemperatureRepository() *TemperatureRepository {
-	return &TemperatureRepository{HTTPClient: &http.Client{}}
+	conf, err := configs.LoadConfig(".")
+	if err != nil {
+		panic(err)
+	}
+	return &TemperatureRepository{
+		HTTPClient: &http.Client{},
+		conf:       *conf,
+	}
 }
 
-func NewTemperatureRepositoryForTest(client HTTPClient) *TemperatureRepository {
-	return &TemperatureRepository{HTTPClient: client}
+func NewTemperatureRepositoryForTest(client HTTPClient, conf *configs.Config) *TemperatureRepository {
+	return &TemperatureRepository{
+		HTTPClient: client,
+		conf:       *conf,
+	}
 }
 
 type TemperatureAPIResponse struct {
@@ -28,7 +40,7 @@ type TemperatureAPIResponse struct {
 
 func (t *TemperatureRepository) FetchTemperatureByCity(city map[string]interface{}) (float64, error) {
 	local := city["localidade"]
-	resp, err := t.HTTPClient.Get(fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=36903aee082b4a3f9c5214023242505&q=%s", url.QueryEscape(local.(string))))
+	resp, err := t.HTTPClient.Get(fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s=%s", t.conf.WeatherAPIKey, url.QueryEscape(local.(string))))
 	if err != nil {
 
 		return 0, err

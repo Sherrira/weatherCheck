@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"testing"
+	"weatherCheck/configs"
 )
 
 type MockHTTPTemperatureClient struct {
@@ -21,14 +22,16 @@ func (m *MockHTTPTemperatureClient) Get(url string) (*http.Response, error) {
 func TestMockTestFetchTemperatureByCity(t *testing.T) {
 
 	mockHTTPClient := new(MockHTTPTemperatureClient)
-	mockHTTPClient.On("Get", "http://api.weatherapi.com/v1/current.json?key=36903aee082b4a3f9c5214023242505&q=Itajub%C3%A1").Return(&http.Response{
+	mockHTTPClient.On("Get", "http://api.weatherapi.com/v1/current.json?key=abc123=Itajub%C3%A1").Return(&http.Response{
 		StatusCode: 200,
 		Body:       io.NopCloser(bytes.NewBufferString(`{"current": {"temp_c": 25.0}}`)),
 	}, nil)
 
 	var httpClient HTTPClient = mockHTTPClient
 
-	repositoryMocked := NewTemperatureRepositoryForTest(httpClient)
+	conf := &configs.Config{WeatherAPIKey: "abc123"}
+
+	repositoryMocked := NewTemperatureRepositoryForTest(httpClient, conf)
 	result, err := repositoryMocked.FetchTemperatureByCity(map[string]interface{}{"localidade": "Itajubá"})
 
 	mockHTTPClient.AssertExpectations(t)

@@ -51,9 +51,12 @@ func Execute(cep string) (TemperaturesDTO, error) {
 	fahrenheit := ConvertCelsiusToFahrenheit(celsius)
 	kelvin := ConvertCelsiusToKelvin(celsius)
 
-	return TemperaturesDTO{
+	result := TemperaturesDTO{
 		Celsius:    celsius,
 		Fahrenheit: fahrenheit,
 		Kelvin:     kelvin,
-	}, nil
+	}
+	fmt.Printf("Success getting temperatures: %+v\n", result)
+
+	return result, nil
 }

@@ -40,7 +40,9 @@ type TemperatureAPIResponse struct {
 
 func (t *TemperatureRepository) FetchTemperatureByCity(city map[string]interface{}) (float64, error) {
 	local := city["localidade"]
-	resp, err := t.HTTPClient.Get(fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s=%s", t.conf.WeatherAPIKey, url.QueryEscape(local.(string))))
+	url := fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s&q=%s", t.conf.WeatherAPIKey, url.QueryEscape(local.(string)))
+	fmt.Printf("Calling GET weatherapi: %v\n", url)
+	resp, err := t.HTTPClient.Get(url)
 	if err != nil {
 		fmt.Printf("Error fetching weather API: %v\n", err)
 		return 0, err
@@ -51,6 +53,8 @@ func (t *TemperatureRepository) FetchTemperatureByCity(city map[string]interface
 		fmt.Printf("Error reading weather API response: %v\n", err)
 		return 0, err
 	}
+
+	fmt.Printf("Success fetching temperature: %s\n", body)
 	var weatherAPIResponse TemperatureAPIResponse
 	err = json.Unmarshal(body, &weatherAPIResponse)
 	if err != nil {

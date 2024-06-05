@@ -22,7 +22,7 @@ func (m *MockHTTPTemperatureClient) Get(url string) (*http.Response, error) {
 func TestMockTestFetchTemperatureByCity(t *testing.T) {
 
 	mockHTTPClient := new(MockHTTPTemperatureClient)
-	mockHTTPClient.On("Get", "http://api.weatherapi.com/v1/current.json?key=abc123=Itajub%C3%A1").Return(&http.Response{
+	mockHTTPClient.On("Get", "http://api.weatherapi.com/v1/current.json?key=abc123&q=Itajub%C3%A1").Return(&http.Response{
 		StatusCode: 200,
 		Body:       io.NopCloser(bytes.NewBufferString(`{"current": {"temp_c": 25.0}}`)),
 	}, nil)

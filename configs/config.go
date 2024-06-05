@@ -5,7 +5,7 @@ import (
 )
 
 type Config struct {
-	WeatherAPIKey string `json:"weatherAPIKey"`
+	WeatherAPIKey string `mapstructure:"WEATHER_API_KEY"`
 }
 
 func LoadConfig(path string) (*Config, error) {

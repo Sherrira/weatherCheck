@@ -4,8 +4,9 @@ Desafio - Sistema de temperatura por CEP - Go Express
 ## Índice
 1. [Pré-requisitos](#pré-requisitos)
 2. [Configurações de ambiente](#configurações-de-ambiente)
-3. [Interagindo com a API](#interagindo-com-a-api)
-4. [Consultando temperatura por CEP](#consultando-temperatura-por-cep)
+3. [Executando o projeto](#executando-o-projeto)
+4. [Interagindo com a API](#interagindo-com-a-api)
+5. [Consultando temperatura por CEP](#consultando-temperatura-por-cep)
 
 ## Pré-requisitos
 Assegure-se de ter as seguintes ferramentas instaladas:
